@@ -4,14 +4,10 @@ namespace nikitakilpa\SystemJob\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use nikitakilpa\Core\Controllers\BaseController;
 use nikitakilpa\SystemJob\Forms\CreateForm;
-use nikitakilpa\SystemJob\Repository\Interfaces\SystemJobRepositoryInterface;
-use nikitakilpa\SystemJob\Filters\JobFilter;
-use nikitakilpa\SystemJob\Services\JobService;
 
-class JobController extends BaseController
+class Controller extends BaseController
 {
     public function hello(): JsonResponse
     {
@@ -20,7 +16,26 @@ class JobController extends BaseController
         ]);
     }
 
-    public function getModelsByFilter(Request $request): JsonResponse
+    public function create(Request $request): JsonResponse
+    {
+        $form = new CreateForm();
+        $result = $form->create($request);
+
+        if(!$result)
+        {
+            return response()->json([
+                'status' => 'error',
+                'data' => $form->getErrors()
+            ]);
+        }
+
+        return response()->json([
+            'status' => 'ok',
+            'message' => 'Задача создана'
+        ]);
+    }
+
+    /*public function getModelsByFilter(Request $request): JsonResponse
     {
         $filter = $this->setupFilter($request);
 
@@ -44,30 +59,11 @@ class JobController extends BaseController
             'status' => 'ok',
             'data' => $items
         ]);
-    }
+    }*/
 
-    public function createJob(Request $request): JsonResponse
+    /*public function pushJobs(): JsonResponse
     {
-        $form = new CreateForm();
-        $result = $form->create($request);
-
-        if(!$result)
-        {
-            return response()->json([
-                'status' => 'error',
-                'data' => $form->getErrors()
-            ]);
-        }
-
-        return response()->json([
-            'status' => 'ok',
-            'message' => 'Задача создана'
-        ]);
-    }
-
-    public function pushJobs(): JsonResponse
-    {
-        $service = new JobService();
+        $service = new SystemJobService();
         $service->push();
 
         return response()->json([
@@ -78,9 +74,9 @@ class JobController extends BaseController
 
 
 
-    private function setupFilter(Request $request): JobFilter
+    private function setupFilter(Request $request): SystemJobFilter
     {
-        $filter = new JobFilter();
+        $filter = new SystemJobFilter();
         $fields = $request->all();
 
         if ($request->has('status') && $fields['status'] != '')
@@ -111,5 +107,5 @@ class JobController extends BaseController
         }
 
         return $filter;
-    }
+    }*/
 }

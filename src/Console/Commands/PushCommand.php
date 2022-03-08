@@ -3,7 +3,7 @@
 namespace nikitakilpa\SystemJob\Console\Commands;
 
 use Illuminate\Console\Command;
-use nikitakilpa\SystemJob\Services\JobService;
+use nikitakilpa\SystemJob\Services\SystemJobService;
 
 class PushCommand extends Command
 {
@@ -13,7 +13,7 @@ class PushCommand extends Command
 
     public function handle()
     {
-        $service = new JobService();
+        $service = new SystemJobService();
         $service->push();
     }
 }

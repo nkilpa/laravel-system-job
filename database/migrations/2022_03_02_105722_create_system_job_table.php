@@ -19,7 +19,7 @@ return new class extends Migration
             $table->dateTime('scheduled_at');
             $table->dateTime('executed_at')->nullable();
             $table->integer('attempts');
-            $table->string('event_id')->nullable();
+            $table->json('params')->nullable();
             $table->string('status');
             $table->timestamps();
             $table->softDeletes();

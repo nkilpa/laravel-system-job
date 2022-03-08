@@ -2,7 +2,7 @@
 
 namespace nikitakilpa\SystemJob\Helpers;
 
-class JobStatus
+class SystemJobStatus
 {
     const SCHEDULED = 'SCHEDULED';
     const PUSHED = "PUSHED";

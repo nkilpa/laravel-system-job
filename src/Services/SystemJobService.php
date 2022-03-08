@@ -3,17 +3,17 @@
 namespace nikitakilpa\SystemJob\Services;
 
 use Illuminate\Support\Facades\App;
-use nikitakilpa\SystemJob\Factories\JobFactory;
-use nikitakilpa\SystemJob\Helpers\JobStatus;
+use nikitakilpa\SystemJob\Factories\SystemJobFactory;
+use nikitakilpa\SystemJob\Filters\SystemJobFilter;
+use nikitakilpa\SystemJob\Helpers\SystemJobStatus;
 use nikitakilpa\SystemJob\Models\SystemJob;
 use nikitakilpa\SystemJob\Repository\Interfaces\SystemJobRepositoryInterface;
-use nikitakilpa\SystemJob\Filters\JobFilter;
 
-class JobService
+class SystemJobService
 {
     public function push()
     {
-        $filter = new JobFilter();
+        $filter = new SystemJobFilter();
         $filter->status = ['SCHEDULED', 'PUSHED', 'QUEUED', 'EXECUTED', 'FAILED'];
         $filter->from = date_create('0000-00-00 00-00-00');
         $filter->to = date('Y-m-d H:i:s');
@@ -23,24 +23,32 @@ class JobService
 
         foreach ($collection as $item)
         {
-            $job = JobFactory::CreateJob($item->action);
+            $job = SystemJobFactory::CreateJob($item->action);
             if($job)
             {
                 $job::dispatch($item->id)->onQueue('system_jobs')->afterCommit();
 
-                $item->status = JobStatus::PUSHED;
+                $item->status = SystemJobStatus::PUSHED;
                 $item->save();
             }
         }
     }
 
-    public function changeStatus(SystemJob $job, string $status)
+    public static function changeStatus(SystemJob $job, string $status): SystemJob
     {
         $job->status = $status;
+        return $job;
     }
 
-    public function incrementAttempts(SystemJob $job)
+    public static function incrementAttempts(SystemJob $job, int $count = 1): SystemJob
     {
-        $job->attempts++;
+        $job->attempts += $count;
+        return $job;
+    }
+
+    public static function setExecutedAt(SystemJob $job)
+    {
+        $job->executed_at = date("Y-m-d H:i:s");
+        return $job;
     }
 }

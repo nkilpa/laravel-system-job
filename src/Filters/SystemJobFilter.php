@@ -2,7 +2,7 @@
 
 namespace nikitakilpa\SystemJob\Filters;
 
-class JobFilter
+class SystemJobFilter
 {
     public $status;
     public $from = null;

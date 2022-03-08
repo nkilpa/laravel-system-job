@@ -2,10 +2,11 @@
 
 namespace nikitakilpa\SystemJob\Forms;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use nikitakilpa\SystemJob\Helpers\JobStatus;
-use nikitakilpa\SystemJob\Models\SystemJob;
 use nikitakilpa\Core\Traits\MessageTrait;
+use nikitakilpa\SystemJob\Dto\SchedulerDto;
+use nikitakilpa\SystemJob\Facades\SystemJobFacade;
 
 class CreateForm
 {
@@ -19,7 +20,7 @@ class CreateForm
         ];
     }
 
-    public function create($request)
+    public function create(Request $request): bool
     {
         $validator = Validator::make($request->all(), $this->rules());
 
@@ -31,13 +32,11 @@ class CreateForm
 
         $validatedData = $validator->validated();
 
-        $systemJob = new SystemJob();
-        $systemJob->action = $validatedData["action"];
-        $systemJob->scheduled_at = $validatedData["scheduled_at"];
-        $systemJob->attempts = 0;
-        $systemJob->status = JobStatus::SCHEDULED;
+        $dto = new SchedulerDto();
+        $dto->action = $validatedData["action"];
+        $dto->scheduled_at = $validatedData["scheduled_at"];
 
-        $systemJob->save();
+        SystemJobFacade::scheduler('mysql')->scheduled($dto);
 
         return true;
     }
