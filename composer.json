@@ -1,0 +1,30 @@
+{
+    "name": "nikitakilpa/laravel-system-job",
+    "type": "library",
+    "require": {
+        "php": "^8.0.2",
+        "laravel/framework": "^9.0",
+        "nikitakilpa/laravel-core": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "nikitakilpa\\SystemJob\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "nikitakilpa\\SystemJob\\Providers\\SystemJobServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../laravel-core"
+        }
+    ]
+}
