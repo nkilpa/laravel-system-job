@@ -5,7 +5,10 @@ namespace nikitakilpa\SystemJob\Controllers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use nikitakilpa\Core\Controllers\BaseController;
+use nikitakilpa\SystemJob\Filters\SystemJobFilter;
 use nikitakilpa\SystemJob\Forms\CreateForm;
+use nikitakilpa\SystemJob\Drivers\Mongodb\Models\SystemJob;
+use nikitakilpa\SystemJob\Services\SystemJobService;
 
 class Controller extends BaseController
 {
@@ -61,7 +64,7 @@ class Controller extends BaseController
         ]);
     }*/
 
-    /*public function pushJobs(): JsonResponse
+    public function pushJobs(): JsonResponse
     {
         $service = new SystemJobService();
         $service->push();
@@ -107,5 +110,5 @@ class Controller extends BaseController
         }
 
         return $filter;
-    }*/
+    }
 }

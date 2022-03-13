@@ -9,5 +9,5 @@ class SystemJobStatus
     const QUEUED = "QUEUED";
     const FAILED = "FAILED";
     const EXECUTED = "EXECUTED";
-    const CANCELED = 'CANCELED';
+    const CANCELLED = 'CANCELLED';
 }

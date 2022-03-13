@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('attempts');
             $table->json('params')->nullable();
             $table->string('status');
+            $table->string('driver');
             $table->timestamps();
             $table->softDeletes();
         });

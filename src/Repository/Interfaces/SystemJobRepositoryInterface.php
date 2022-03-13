@@ -7,6 +7,6 @@ use nikitakilpa\SystemJob\Filters\SystemJobFilter;
 
 interface SystemJobRepositoryInterface
 {
-    public function findModelsByFilter(SystemJobFilter $filter): Collection;
-    public function findIds(SystemJobFilter $filter): Collection;
+    public function findModelsByFilter(string $driver, SystemJobFilter $filter): Collection;
+    public function findIds(string $driver, SystemJobFilter $filter): Collection;
 }

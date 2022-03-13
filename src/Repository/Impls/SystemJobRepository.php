@@ -3,22 +3,26 @@
 namespace nikitakilpa\SystemJob\Repository\Impls;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
+use nikitakilpa\SystemJob\Drivers\Mongodb\Models\SystemJob;
 use nikitakilpa\SystemJob\Filters\SystemJobFilter;
-use nikitakilpa\SystemJob\Models\SystemJob;
 use nikitakilpa\SystemJob\Repository\Interfaces\SystemJobRepositoryInterface;
 
 class SystemJobRepository implements SystemJobRepositoryInterface
 {
-    public function findModelsByFilter(SystemJobFilter $filter): Collection
+    public function findModelsByFilter(string $driver, SystemJobFilter $filter): Collection
     {
-        return SystemJob::WhereIn('status', $filter->status)
-                ->whereBetween('scheduled_at', [$filter->from, $filter->to])
+        $model = config('schedule.drivers.'.$driver.'.model');
+        return $model::
+                whereIn('status', $filter->status)
+                ->whereDate('scheduled_at', '<=', $filter->to)
                 ->orderBy('id', 'desc')
                 ->get();
     }
 
-    public function findIds(SystemJobFilter $filter): Collection
+    public function findIds(string $driver, SystemJobFilter $filter): Collection
     {
-        return SystemJob::pluck('id');
+        $model = config('schedule.drivers.'.$driver.'.model');
+        return $model::pluck('id');
     }
 }

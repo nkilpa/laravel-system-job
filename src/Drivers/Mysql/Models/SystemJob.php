@@ -1,6 +1,6 @@
 <?php
 
-namespace nikitakilpa\SystemJob\Models;
+namespace nikitakilpa\SystemJob\Drivers\Mysql\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -25,6 +25,13 @@ use Nette\Utils\Json;
 class SystemJob extends Model
 {
     use SoftDeletes;
+
+    protected $fillable = [
+        'action',
+        'params',
+        'scheduled_at',
+        'status'
+    ];
 
     public function __construct(array $attributes = [])
     {
