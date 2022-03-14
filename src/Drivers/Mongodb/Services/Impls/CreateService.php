@@ -2,6 +2,7 @@
 
 namespace nikitakilpa\SystemJob\Drivers\Mongodb\Services\Impls;
 
+use nikitakilpa\Core\Traits\MessageTrait;
 use nikitakilpa\SystemJob\Drivers\Mongodb\Models\SystemJob;
 use nikitakilpa\SystemJob\Dto\SchedulerDto;
 use nikitakilpa\SystemJob\Helpers\SystemJobStatus;
@@ -9,6 +10,8 @@ use nikitakilpa\SystemJob\Services\Interfaces\CreateInterface;
 
 class CreateService implements CreateInterface
 {
+    use MessageTrait;
+
     public function create(SchedulerDto $dto): bool
     {
         $model = config('schedule.drivers.mongodb.model');

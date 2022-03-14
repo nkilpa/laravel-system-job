@@ -8,15 +8,17 @@ use nikitakilpa\SystemJob\Services\Interfaces\ManageInterface;
 class ManageService implements ManageInterface
 {
     protected string $driver = '';
+    protected string $modelName = '';
 
-    public function __constructor(string $drive)
+    public function __construct(string $driver)
     {
-        $this->driver = $drive;
+        $this->driver = $driver;
+        $this->modelName = config('schedule.drivers.'.$this->driver.'.model');
     }
 
     public function changeStatus($jobId, string $status)
     {
-        $model = config('schedule.drivers.'.$this->driver.'.model');
+        $model = new $this->modelName();
         $job = $model::find($jobId);
         $job->status = $status;
         $job->save();
@@ -24,7 +26,7 @@ class ManageService implements ManageInterface
 
     public function incrementAttempt($jobId, int $count = 1)
     {
-        $model = config('schedule.'.$this->driver.'.mysql.model');
+        $model = new $this->modelName();
         $job = $model::find($jobId);
         $job->attempts += $count;
         $job->save();
@@ -32,7 +34,7 @@ class ManageService implements ManageInterface
 
     public function execute($jobId)
     {
-        $model = config('schedule.'.$this->driver.'.mysql.model');
+        $model = new $this->modelName();
         $job = $model::find($jobId);
         $job->status = SystemJobStatus::EXECUTED;
         $job->executed_at = date_create();
@@ -41,7 +43,7 @@ class ManageService implements ManageInterface
 
     public function cancel($jobId)
     {
-        $model = config('schedule.'.$this->driver.'.mysql.model');
+        $model = new $this->modelName();
         $job = $model::find($jobId);
         $job->status = SystemJobStatus::CANCELLED;
         $job->save();

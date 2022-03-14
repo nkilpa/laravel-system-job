@@ -7,13 +7,31 @@ use nikitakilpa\SystemJob\Services\SystemJobService;
 
 class PushCommand extends Command
 {
-    protected $signature = 'job:push';
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'system-job:push {database?}';
 
-    protected $description = 'Push system job to queue \'system_jobs\'.';
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Push jobs to queue';
 
+    /**
+     * Execute the console command.
+     *
+     * @return int
+     */
     public function handle()
     {
+        $db = $this->hasArgument('database') ? $this->argument('database') : config('schedule.default');
         $service = new SystemJobService();
-        $service->push();
+        $service->push($db);
+        echo("Jobs pushed\n");
+        return 0;
     }
 }

@@ -11,7 +11,8 @@ class CreateService implements CreateInterface
 {
     public function create(SchedulerDto $dto): bool
     {
-        $model = config('schedule.drivers.mysql.model');
+        $modelName = config('schedule.drivers.mysql.model');
+        $model = new $modelName();
         $model->action = $dto->action;
         $model->scheduled_at = $dto->scheduled_at;
         $model->params = json_encode($dto->params);

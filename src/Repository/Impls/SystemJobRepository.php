@@ -10,9 +10,9 @@ use nikitakilpa\SystemJob\Repository\Interfaces\SystemJobRepositoryInterface;
 
 class SystemJobRepository implements SystemJobRepositoryInterface
 {
-    public function findModelsByFilter(string $driver, SystemJobFilter $filter): Collection
+    public function findModelsByFilter(string $database, SystemJobFilter $filter): Collection
     {
-        $model = config('schedule.drivers.'.$driver.'.model');
+        $model = config('schedule.drivers.'.$database.'.model');
         return $model::
                 whereIn('status', $filter->status)
                 ->whereDate('scheduled_at', '<=', $filter->to)
@@ -20,9 +20,9 @@ class SystemJobRepository implements SystemJobRepositoryInterface
                 ->get();
     }
 
-    public function findIds(string $driver, SystemJobFilter $filter): Collection
+    public function findIds(string $database, SystemJobFilter $filter): Collection
     {
-        $model = config('schedule.drivers.'.$driver.'.model');
+        $model = config('schedule.drivers.'.$database.'.model');
         return $model::pluck('id');
     }
 }

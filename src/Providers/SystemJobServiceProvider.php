@@ -14,6 +14,7 @@ use nikitakilpa\SystemJob\Repository\Interfaces\SystemJobRepositoryInterface;
 use nikitakilpa\SystemJob\Services\Impls\BatchCreateService;
 use nikitakilpa\SystemJob\Services\Impls\ManageService;
 use nikitakilpa\SystemJob\Services\Interfaces\BatchCreateInterface;
+use nikitakilpa\SystemJob\Services\Interfaces\ManageInterface;
 
 class SystemJobServiceProvider extends ServiceProvider
 {
@@ -24,6 +25,7 @@ class SystemJobServiceProvider extends ServiceProvider
         $this->app->bind(ManagerInterface::class, ManagerComponent::class);
 
         $this->app->bind(BatchCreateInterface::class, BatchCreateService::class);
+        $this->app->bind(ManageInterface::class, ManageService::class);
 
         $this->app->bind(
             'create_service_mysql',

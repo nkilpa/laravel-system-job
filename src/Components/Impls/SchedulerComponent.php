@@ -16,17 +16,15 @@ class SchedulerComponent implements SchedulerInterface
         $this->driver = $driver;
     }
 
-    public function scheduled(SchedulerDto $dto)
+    public function scheduled(SchedulerDto $dto): bool
     {
         $service = App::make(config('schedule.drivers.'.$this->driver.'.create_service'));
-        $service->create($dto);
+        return $service->create($dto);
     }
 
-    public function scheduledBatch(array $items)
+    public function scheduledBatch(array $items): bool
     {
-        var_dump($this->driver);
         $service = App::makeWith(BatchCreateInterface::class, ['driver' => $this->driver]);
-        var_dump($service);
-        $service->create($items);
+        return $service->create($items);
     }
 }

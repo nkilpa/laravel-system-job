@@ -4,6 +4,7 @@ namespace nikitakilpa\SystemJob\Components\Impls;
 
 use Illuminate\Support\Facades\App;
 use nikitakilpa\SystemJob\Components\Interfaces\ManagerInterface;
+use nikitakilpa\SystemJob\Services\Interfaces\ManageInterface;
 
 class ManagerComponent implements ManagerInterface
 {
@@ -13,7 +14,7 @@ class ManagerComponent implements ManagerInterface
     public function __construct(string $driver)
     {
         $this->driver = $driver;
-        $this->manager = App::make(config('schedule.drivers.'.$this->driver.'.manage_service'), ['driver' => $this->driver]);
+        $this->manager = App::makeWith(ManageInterface::class, ['driver' => $this->driver]);
     }
 
     public function changeStatus($jobId, string $status)

@@ -6,6 +6,6 @@ use nikitakilpa\SystemJob\Dto\SchedulerDto;
 
 interface SchedulerInterface
 {
-    public function scheduled(SchedulerDto $dto);
-    public function scheduledBatch(array $items);
+    public function scheduled(SchedulerDto $dto): bool;
+    public function scheduledBatch(array $items): bool;
 }

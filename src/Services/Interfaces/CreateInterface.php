@@ -6,5 +6,5 @@ use nikitakilpa\SystemJob\Dto\SchedulerDto;
 
 interface CreateInterface
 {
-    public function create(SchedulerDto $dto);
+    public function create(SchedulerDto $dto): bool;
 }
