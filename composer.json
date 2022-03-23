@@ -1,6 +1,7 @@
 {
     "name": "nikitakilpa/laravel-system-job",
     "type": "library",
+    "version": "v0.0.1",
     "require": {
         "php": "^8.0.2",
         "laravel/framework": "^9.0",
