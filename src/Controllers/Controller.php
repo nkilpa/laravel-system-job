@@ -4,6 +4,7 @@ namespace nikitakilpa\SystemJob\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use NeedleProject\LaravelRabbitMq\PublisherInterface;
 use nikitakilpa\Core\Controllers\BaseController;
 use nikitakilpa\SystemJob\Filters\SystemJobFilter;
 use nikitakilpa\SystemJob\Forms\CreateForm;
@@ -14,6 +15,13 @@ class Controller extends BaseController
 {
     public function hello(): JsonResponse
     {
+        $publisher = app()->makeWith(PublisherInterface::class, ['aPublisherName']);
+        $message = [
+            'title' => 'Hello title',
+            'body' => 'Hello, world!',
+        ];
+        $publisher->publish(json_encode($message));
+
         return response()->json([
             'message' => 'hello, system-job',
         ]);

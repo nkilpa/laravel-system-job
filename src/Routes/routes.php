@@ -12,5 +12,5 @@ Route::prefix('system-job')->group(function () {
 
     Route::post('/create', [Controller::class, 'create']);
 
-    Route::post('/pushCommand', [Controller::class, 'pushJobs']);
+    Route::post('/push', [Controller::class, 'pushJobs']);
 });
